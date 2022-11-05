@@ -1,0 +1,26 @@
+Roadmap for elCheapo Grinder
+
+1. Test Rig
+
+Aim
+  . design 3d print and test fit
+  . 3dprint coupling and test fit
+  . design and test stepper control
+  . stepper torque requirement analysis
+  . speed analysis
+
+
+2. Fixed Rig Prototype1
+Aim
+  . design 3d print fixed Rig
+  . stepper motor and speed control interface (switch and dial)
+
+3. Add wight monitoring and timer
+Aim
+  . add weighing scale with display
+  . Analyze grind time to yield
+
+4.
+Aim
+  . Design Inteface
+   

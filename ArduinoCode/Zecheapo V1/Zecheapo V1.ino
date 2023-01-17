@@ -16,6 +16,7 @@ Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 void setup() {
 
   // put your setup code here, to run once:
+  pinMode(4, INPUT_PULLUP);
 
   //Begin Serial
   Serial.begin(115200);
@@ -45,18 +46,32 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  while(digitalRead(4)==0){
+    Serial.println("Motor Off");
+    display.clearDisplay();
+    display.display();
+    display.setTextSize(2);
+    display.setCursor(0, 0);
+    display.print("Motor OFF");
+    display.display();
+    delay(1);
 
-  //Read Potentiometer value and put inrange 25 to 200
-  int sensorValue = map(analogRead(0),0,1023,25,200);
-  Serial.println(sensorValue); // serial output RPM value
-  //Display RPM on Oled
-  display.clearDisplay();
-  display.display();
-  display.setTextSize(2);
-  display.setCursor(0, 0);
-  display.print("RPM: ");
-  display.print(sensorValue);
-  display.display();
+  }
 
-  delay(10);
+  while(digitalRead(4)==1){
+
+    //Read Potentiometer value and put inrange 25 to 200
+    int sensorValue = map(analogRead(0),0,1023,25,200);
+    Serial.println("Motor on");
+    Serial.println(sensorValue); // serial output RPM value
+    //Display RPM on Oled
+    display.clearDisplay();
+    display.display();
+    display.setTextSize(2);
+    display.setCursor(0, 0);
+    display.print("RPM: ");
+    display.print(sensorValue);
+    display.display();
+    delay(1);
+  }    
 }

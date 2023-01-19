@@ -34,10 +34,21 @@ void setup() {
   display.setTextColor(SH110X_WHITE);
   display.setCursor(0, 0);
 
-  display.println("Zecheapo");
-  display.setTextSize(1);
+  display.println("  Welcome");
+ 
   display.setCursor(0, 20);
-  display.println("V .1a");
+  display.setTextSize(1);
+  display.println("");
+  display.setTextSize(2);
+  display.println("  Zecheapo");
+  display.setTextSize(1);
+  display.println("");
+  //display.println("");
+  display.println("   V.1a Initialising");
+
+
+  display.display();
+  delay(2000);
 
 
   display.display();
@@ -59,7 +70,10 @@ void loop() {
     display.display();
     display.setTextSize(2);
     display.setCursor(0, 0);
-    display.print("Motor OFF");
+    display.println(" Zecheapo");
+    display.println("");
+    display.setTextSize(3);    
+    display.print("  OFF");
     display.display();
     switchPrevious=0;
     rpmPrevious=-1;
@@ -73,7 +87,7 @@ void loop() {
 
     //Read Potentiometer value and put inrange 25 to 200
     int sensorValue = map(analogRead(0),0,1023,25,200);
-    if((rpmPrevious==-1)||(rpmPrevious!=sensorValue))
+    if(((rpmPrevious==-1)||(rpmPrevious!=sensorValue))&&((sensorValue>1.5+rpmPrevious)||(sensorValue<rpmPrevious-1.5)))
     {
     Serial.println("Motor on");
     Serial.println(sensorValue); // serial output RPM value
@@ -82,7 +96,11 @@ void loop() {
     display.display();
     display.setTextSize(2);
     display.setCursor(0, 0);
-    display.print("RPM: ");
+    display.println(" Zecheapo");
+    display.println("");
+    display.setTextSize(3);    
+    display.print("RPM:");
+    display.display();
     display.print(sensorValue);
     display.display();
     switchPrevious=1;

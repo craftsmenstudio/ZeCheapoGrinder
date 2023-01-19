@@ -4,13 +4,15 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+#include <Adafruit_SH110X.h>
 
 //SPI oled related variables
-#define OLED_WIDTH 128 // OLED display width, in pixels
-#define OLED_HEIGHT 32 // OLED display height, in pixels
-#define OLED_ADDR   0x3C
-Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+#define OLED_RESET -1   //   QT-PY / XIAO
+#define i2c_Address 0x3c
+
+Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 int switchPrevious=-1, rpmPrevious=-1;
 
 
@@ -26,10 +28,10 @@ void setup() {
 
   
   //initialise Display 
-  display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
+  display.begin(i2c_Address, true); 
   display.clearDisplay();
   display.setTextSize(2);
-  display.setTextColor(WHITE);
+  display.setTextColor(SH110X_WHITE);
   display.setCursor(0, 0);
 
   display.println("Zecheapo");

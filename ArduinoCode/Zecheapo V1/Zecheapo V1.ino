@@ -5,12 +5,16 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
+#include <Stepper.h>
 
 //SPI oled related variables
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET -1   //   QT-PY / XIAO
 #define i2c_Address 0x3c
+
+const int stepsPerRevolution = 200;
+Stepper myStepper(stepsPerRevolution, 2,3);
 
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 int switchPrevious=-1, rpmPrevious=-1;
@@ -87,6 +91,12 @@ void loop() {
 
     //Read Potentiometer value and put inrange 25 to 200
     int sensorValue = map(analogRead(0),0,1023,25,200);
+    int motorSpeed = sensorValue;
+     if (motorSpeed > 0) {
+    myStepper.setSpeed(motorSpeed);
+    // step 1/100 of a revolution:
+    myStepper.step(stepsPerRevolution / 100);
+  }
     if(((rpmPrevious==-1)||(rpmPrevious!=sensorValue))&&((sensorValue>1.5+rpmPrevious)||(sensorValue<rpmPrevious-1.5)))
     {
     Serial.println("Motor on");

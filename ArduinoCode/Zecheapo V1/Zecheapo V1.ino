@@ -1,4 +1,5 @@
 
+
 // SPI-Oled related headers
 #include <SPI.h>
 #include <Wire.h>
@@ -10,6 +11,7 @@
 #define OLED_HEIGHT 32 // OLED display height, in pixels
 #define OLED_ADDR   0x3C
 Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
+int switchPrevious=-1, rpmPrevious=-1;
 
 
 
@@ -46,7 +48,10 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+ 
+ // Detect and display Off state
   while(digitalRead(4)==0){
+    if((switchPrevious==-1)||(switchPrevious==1)){
     Serial.println("Motor Off");
     display.clearDisplay();
     display.display();
@@ -54,14 +59,20 @@ void loop() {
     display.setCursor(0, 0);
     display.print("Motor OFF");
     display.display();
-    delay(1);
+    switchPrevious=0;
+    rpmPrevious=-1;
 
+    }
+    
   }
 
+ // Detect and display ON state
   while(digitalRead(4)==1){
 
     //Read Potentiometer value and put inrange 25 to 200
     int sensorValue = map(analogRead(0),0,1023,25,200);
+    if((rpmPrevious==-1)||(rpmPrevious!=sensorValue))
+    {
     Serial.println("Motor on");
     Serial.println(sensorValue); // serial output RPM value
     //Display RPM on Oled
@@ -72,6 +83,9 @@ void loop() {
     display.print("RPM: ");
     display.print(sensorValue);
     display.display();
+    switchPrevious=1;
+    rpmPrevious=sensorValue;
     delay(1);
+    }
   }    
 }

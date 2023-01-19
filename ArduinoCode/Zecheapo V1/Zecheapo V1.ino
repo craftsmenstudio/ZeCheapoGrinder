@@ -16,6 +16,7 @@ Adafruit_SSD1306 display(OLED_WIDTH, OLED_HEIGHT);
 void setup() {
 
   // put your setup code here, to run once:
+  pinMode(4, INPUT_PULLUP);
 
   //Begin Serial
   Serial.begin(115200);
@@ -32,17 +33,19 @@ void setup() {
   display.println("Zecheapo");
   display.setTextSize(1);
   display.setCursor(0, 20);
-    display.println("V .1a");
+  display.println("V .1a");
 
 
   display.display();
   delay(2000);
   display.clearDisplay();
+  display.display();
   
 
 }
 
 void loop() {
+  // put your main code here, to run repeatedly:
   while(digitalRead(4)==0){
     Serial.println("Motor Off");
     display.clearDisplay();
@@ -54,7 +57,8 @@ void loop() {
     delay(1);
 
   }
-   while(digitalRead(4)==1){
+
+  while(digitalRead(4)==1){
 
     //Read Potentiometer value and put inrange 25 to 200
     int sensorValue = map(analogRead(0),0,1023,25,200);
@@ -70,8 +74,4 @@ void loop() {
     display.display();
     delay(1);
   }    
-
-
-  // put your main code here, to run repeatedly:
-
 }

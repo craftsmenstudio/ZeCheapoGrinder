@@ -90,14 +90,14 @@ void loop() {
   while(digitalRead(4)==1){
 
     //Read Potentiometer value and put inrange 25 to 200
-    int sensorValue = map(analogRead(0),0,1023,25,200);
-    int motorSpeed = sensorValue;
+    int sensorValue = map(analogRead(0),0,1023,30,300);
+    int motorSpeed = sensorValue*3.333333;
      if (motorSpeed > 0) {
     myStepper.setSpeed(motorSpeed);
     // step 1/100 of a revolution:
-    myStepper.step(stepsPerRevolution / 100);
+    myStepper.step(stepsPerRevolution);
   }
-    if(((rpmPrevious==-1)||(rpmPrevious!=sensorValue))&&((sensorValue>1.5+rpmPrevious)||(sensorValue<rpmPrevious-1.5)))
+    if(((rpmPrevious==-1)||(rpmPrevious!=sensorValue))&&((sensorValue>1+rpmPrevious)||(sensorValue<rpmPrevious-1)))
     {
     Serial.println("Motor on");
     Serial.println(sensorValue); // serial output RPM value
